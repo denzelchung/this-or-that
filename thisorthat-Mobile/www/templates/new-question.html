@@ -1,0 +1,29 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Ask New Question</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeNewQuestion()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="doSubmitQuestion()">
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Description</span>
+          <textarea class="description-textarea form-control" id="description-textarea" contenteditable="true" placeholder="What's your question about?" ng-model="newQuestion.description"></textarea>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">URL for 1st choice</span>
+          <input type="text" ng-model="newQuestion.URLThis">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">URL for 2nd choice</span>
+          <input type="text" ng-model="newQuestion.URLThat">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Submit</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

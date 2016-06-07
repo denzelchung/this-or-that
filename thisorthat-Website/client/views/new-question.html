@@ -1,0 +1,28 @@
+<div class="question-stream">
+    <div class="qn-content">
+        <form ng-submit="doSubmitQuestion()" enctype="multipart/form-data" id="new-qn-form" class="form-horizontal">
+            <h3>Ask New Question</h3>
+            <div class="qn-description form-group">
+                <div class="col-sm-12">
+                    <textarea class="description-textarea form-control" id="description-textarea" contenteditable="true" placeholder="What's your question about?" ng-model="description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="choiceThis" class="col-sm-4 control-label">URL for 1st choice:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="choiceThis" ng-model="URLThis">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="choiceThat" class="col-sm-4 control-label">URL for 2nd choice:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="choiceThat" ng-model="URLThat">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success" id="btn-submit" ng-disabled="isDisabled">Submit</button>
+        </form>
+    </div>
+</div>

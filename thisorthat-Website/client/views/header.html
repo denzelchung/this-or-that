@@ -1,0 +1,71 @@
+               
+<div id="header">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="nav-left">
+                <div></div>
+            </div>
+            <div class="nav-logo nav-center">
+                <a href="/"></a>
+            </div>
+            <div class="nav-right">
+                <div ng-if="!loggedIn">
+                    <a ng-click="openLogin()">
+                        <span class="glyphicon glyphicon-log-in"></span> Login
+                    </a>
+                </div>
+<!--
+                <div id="login-dropdown" class="dropdown" ng-if="!loggedIn">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Login
+                    </a>
+                    <ul class="dropdown-menu social-login">
+                        <li>
+                            <a ng-click="openLogin()">Log In</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-google" id="google-signin">
+                                <span class="social social-google-plus" aria-hidden="true"></span>
+                                Sign in with Google
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-facebook" id="facebook-signin">
+                                <span class="social social-facebook" aria-hidden="true"></span>
+                                Sign in with Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-twitter" href="/twconnect">
+                                <span class="social social-twitter" aria-hidden="true"></span>
+                                Sign in with Twitter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+-->
+                <div class="dropdown" ng-if="loggedIn">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img ng-src="{{picture}}" alt="Profile picture" class="header-profile-pic img-circle">
+                        <div class="hidden-xs header-profile-name">{{username}}</div>
+                    </a>
+                    <ul class="dropdown-menu" id="dropdown-logged">
+                        <li>
+                            <a href="/{{uid}}">
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a id="logout-btn" ng-click="logOut()">
+                                Log out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a ui-sref="app.newquestion">
+                    <span class="glyphicons glyphicons-edit new-question-header hidden-md hidden-lg"></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 512M
+  instances: 1
+  domain: mybluemix.net
+  name: thisorthat
+  host: thisorthat
+  disk_quota: 1024M
+  services:
+  - thisorthat-AdvancedMobileAccess
+  - thisorthat-imfpush
+  - thisorthat-cloudantNoSQLDB

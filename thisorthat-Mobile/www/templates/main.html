@@ -1,0 +1,50 @@
+<ion-view view-title="Timeline">
+    <ion-nav-buttons side="secondary">
+        <div class="buttons">
+            <button class="button button-icon icon ion-compose"
+        ng-click="askNewQuestion()"></button>
+        </div>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <ion-list>
+            <ion-item ng-repeat="question in questions">
+                <div class="question-content">
+                    <div class="content-description item-text-wrap expander">
+                        {{question.description}}
+                    </div>
+                    <div class="content-thisorthat row row-eq-height">
+                        <div class="item col col-center">
+                            <img class="img-responsive img-rounded" ng-src="{{question.imageThis}}">
+                        </div>
+                        <div class="col col-center" style="text-align:center">
+                            <div>OR</div>
+                        </div>
+                        <div class="item col col-center">
+                            <img class="img-responsive img-rounded" ng-src="{{question.imageThat}}">
+                        </div>
+                    </div>
+                    <div class="content-votes row row-eq-height">
+                        <div class="col vote-txt">
+                            <a id="vote-this" href="#" ng-click="doVote(question.id, 0)">
+                                <span class="ion-arrow-up-a vote-up"></span>
+                                <strong>{{question.voteThis}}</strong>
+                            </a>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col vote-txt">
+                            <a id="vote-that" href="#" ng-click="doVote(question.id, 1)">
+                                <span class="ion-arrow-up-a vote-up"></span>
+                                <strong>{{question.voteThat}}</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="content-date row">
+                        <div class="col">
+                            <a class="qn-date" ui-sref="app.question({id: question.id})" data-toggle="tooltip" data-placement="top" title="{{question.date}}">Asked by <b>{{question.username}}</b></a>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

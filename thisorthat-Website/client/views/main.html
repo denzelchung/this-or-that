@@ -1,0 +1,179 @@
+
+<div class="question-stream">
+    <div ng-if="!showTimeline">
+        <h3>{{message}}</h3>
+    </div>
+    <ol class="stream-list" ng-if="showTimeline">
+        <li class="stream-item hidden-xs hidden-sm"  ng-if="loggedIn">
+            <div class="question-content">
+                <a ui-sref="app.newquestion">
+                    <h3>
+                        <span class="glyphicons glyphicons-edit"></span> Ask New Question
+                    </h3>
+                </a>
+            </div>
+        </li>
+        <li class="stream-item" ng-repeat="question in questions">
+            <div class="question-content">
+                <div class="content-description expander">
+                    {{question.description}}
+                </div>
+                <div class="content-thisorthat row row-eq-height">
+                    <div class="col-xs-5">
+                        <img class="img-responsive img-rounded" ng-src="{{question.imageThis}}">
+                    </div>
+                    <div class="col-xs-2 content-or">
+                        <div>OR</div>
+                    </div>
+                    <div class="col-xs-5">
+                        <img class="img-responsive img-rounded" ng-src="{{question.imageThat}}">
+                    </div>
+                </div>
+                <div class="content-votes row row-eq-height">
+                    <div class="col-xs-5">
+                        <a id="vote-this" href="#" ng-click="doVote(question.id, 0)">
+                            <span class="glyphicons glyphicons-thumbs-up vote-up"></span>
+                            <strong>{{question.voteThis}}</strong>
+                        </a>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-2">
+                        <a id="vote-that" href="#" ng-click="doVote(question.id, 1)">
+                            <span class="glyphicons glyphicons-thumbs-up vote-up"></span>
+                            <strong>{{question.voteThat}}</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="content-date row">
+                    <div class="col-xs-12">
+                        <a class="qn-date" ui-sref="app.question({id: question.id})" data-toggle="tooltip" data-placement="top" title="{{question.date}}">Asked by <b>{{question.username}}</b></a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>
+
+<script nonce="{{nonce}}">
+    // limit description height
+    // and update content date
+    $(document).ready(updateUI);
+    function updateUI() {
+
+        // limit description height
+        if (window.location.pathname == "/") {
+            var maxlines = 3;
+            var lineheight = 20; // line height in 'px'
+            var maxheight = (maxlines * lineheight);
+            var allowedExtraLines = 1;
+            var showText = "Read More";
+
+            $('.expander').each(function () {
+                var text = $(this);
+                if (text.height() > maxheight + allowedExtraLines * lineheight) {
+                    text.css({ 'overflow': 'hidden', 'line-height': lineheight + 'px', 'height': maxheight + 'px' });
+
+                    var link = $('<a href="#">' + showText + '</a>');
+                    link.click(function (event) {
+                        event.preventDefault();
+
+                        if (text.css('height') == 'auto') {
+                            $(this).html(showText);
+                            text.css('height', maxheight + 'px');
+                        } else {
+                            $(this).remove();
+                            text.css('height', 'auto');
+                        }
+                    });
+
+                    var linkDiv = $('<div class="content-description read-more"></div>');
+                    linkDiv.append(link);
+
+                    $(this).after(linkDiv);
+                }
+            });
+        }
+
+        // format content date
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                          "Jul", "Aug", "Sep", "Oct", "Nov", 
+                          "Dec"];
+        $('.content-date').each(function() {
+            var qnDate = $(this).find('.qn-date');
+            var dateTime = qnDate.html();
+            var date = new Date(dateTime);
+
+            var hour = date.getHours();
+            var amPm = "AM";
+            if (Math.floor(hour / 12) == 1) {
+                hour = hour % 12;
+                hour = hour == 0 ? 12 : hour;
+                amPm = "PM";
+            }
+            var minute = date.getMinutes();
+            if (minute < 10) {
+                minute = "0" + minute;
+            }
+
+            // 3:59 PM, 4 Jul 2015
+            var formattedDate = hour + ":" + minute + " " + amPm + ", " 
+                                + date.getDate() + " " + monthNames[date.getMonth()]
+                                + " " + date.getFullYear();
+            qnDate.html(formattedDate);
+            jQuery(qnDate).timeago();
+        });
+
+        // design votes
+        $('.content-votes').each(function() {
+            var voteThis = $(this).find('#vote-this');
+            var thisVotes = voteThis.find('strong').html();
+
+            var voteThat = $(this).find('#vote-that');
+            var thatVotes = voteThat.find('strong').html();
+
+            var total = parseInt(thisVotes) + parseInt(thatVotes);
+            var difference = thisVotes - thatVotes;
+            var percentage = Math.abs(difference) / total;
+
+            // more votes on this
+            if (difference > 0) {
+                var color = 150;
+                color = color + Math.floor(percentage * 65);
+                voteThis.css('color', '#66' + color.toString(16) +'66');
+
+                var fontSize = 1.2 + (0.6 * percentage);
+                voteThis.css('font-size', fontSize + 'em');
+
+                var loserSize = 1.2 - (0.2 * percentage);
+                voteThat.css('font-size', loserSize + 'em');
+            }
+            // more votes on that
+            else if (difference < 0) {
+                var color = 150;
+                color = color + Math.floor(percentage * 65);
+                voteThat.css('color', '#66' + color.toString(16) +'66');
+
+                var fontSize = 1.2 + (0.6 * percentage);
+                voteThat.css('font-size', fontSize + 'em');
+
+                var loserSize = 1.2 - (0.2 * percentage);
+                voteThis.css('font-size', loserSize + 'em');
+            }
+
+            // todo: add DROP class on mouseover, remove on mouseout
+            // AJAX if click
+            // add onclick listener
+            voteThis.on('mouseover', function() {
+                $(this).find('.glyphicons').addClass('drop');
+            }).on('mouseout', function() {
+                $(this).find('.glyphicons').removeClass('drop');
+            });
+            voteThat.on('mouseover', function() {
+                $(this).find('.glyphicons').addClass('drop');
+            }).on('mouseout', function() {
+                $(this).find('.glyphicons').removeClass('drop');
+            });
+        });
+        
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+</script>

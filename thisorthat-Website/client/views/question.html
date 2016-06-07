@@ -1,0 +1,45 @@
+
+<div class="question-stream">
+    <div ng-if="!showQuestion">
+        <h3>{{message}}</h3>
+    </div>
+    <ol class="stream-list" ng-if="showQuestion">
+        <li class="stream-item" data-question-id="{{question.key.id()}}">
+            <div class="question-content">
+                <div class="content-description expander">
+                    {{question.description}}
+                </div>
+                <div class="content-thisorthat row row-eq-height">
+                    <div class="col-xs-5">
+                        <img class="img-responsive img-rounded" ng-src="{{question.imageThis}}">
+                    </div>
+                    <div class="col-xs-2 content-or">
+                        <div>OR</div>
+                    </div>
+                    <div class="col-xs-5">
+                        <img class="img-responsive img-rounded" ng-src="{{question.imageThat}}">
+                    </div>
+                </div>
+                <div class="content-votes row row-eq-height">
+                    <div class="col-xs-5">
+                        <a id="vote-this" href="#">
+                            <span class="glyphicons glyphicons-thumbs-up vote-up"></span>
+                            <strong>{{question.voteThis}}</strong>
+                        </a>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-2">
+                        <a id="vote-that" href="#">
+                            <span class="glyphicons glyphicons-thumbs-up vote-up"></span>
+                            <strong>{{question.voteThat}}</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="content-date row">
+                    <div class="col-xs-12">
+                        Asked by <b>{{question.username}}</b>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>
